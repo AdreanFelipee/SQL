@@ -13,7 +13,7 @@ CREATE TABLE Usuarios (
 	PRIMARY KEY (IDUsuario),
 	UNIQUE (RG),
 	CHECK (sexo IN ('M', 'F')),
-	CHECK (tipo IN ('Docente', 'Discente', 'Funcionário'))
+	CHECK (tipo IN ('Docente', 'Discente', 'FuncionÃ¡rio'))
 )
 
 CREATE TABLE Livros (
@@ -21,10 +21,10 @@ CREATE TABLE Livros (
 	titulo VARCHAR(40) NOT NULL,
 	genero VARCHAR(15),
 	ano INT,
-	situacao VARCHAR(10) NOT NULL DEFAULT 'Disponível',
+	situacao VARCHAR(10) NOT NULL DEFAULT 'DisponÃ­vel',
 	precoCusto NUMERIC(6,2) NOT NULL,
 	PRIMARY KEY (IDLivro),
-	CHECK (situacao IN ('Emprestado', 'Disponível'))
+	CHECK (situacao IN ('Emprestado', 'DisponÃ­vel'))
 )
 
 CREATE TABLE Emprestimos (
@@ -44,20 +44,20 @@ INSERT INTO Usuarios VALUES ('Roberta Silva', '098786', 'F', 'Docente')
 INSERT INTO Usuarios VALUES ('Mariana Torres', '123672', 'F', 'Discente')
 INSERT INTO Usuarios VALUES ('Anderson Junqueira', '827460', 'M', default)
 INSERT INTO Usuarios VALUES ('Daniela Amorim', '762548', 'F', 'Docente')
-INSERT INTO Usuarios VALUES ('Pedro Henrique', '092637', 'M', 'Funcionário')
+INSERT INTO Usuarios VALUES ('Pedro Henrique', '092637', 'M', 'FuncionÃ¡rio')
 INSERT INTO Usuarios VALUES ('Ivo Marques', '937586', 'M', 'Docente')
-INSERT INTO Usuarios VALUES ('Verônica Sales', '182710', 'F', default)
-INSERT INTO Usuarios VALUES ('Marcos Andrade', '174593', 'M', 'Funcionário')
+INSERT INTO Usuarios VALUES ('VerÃ´nica Sales', '182710', 'F', default)
+INSERT INTO Usuarios VALUES ('Marcos Andrade', '174593', 'M', 'FuncionÃ¡rio')
 
-INSERT INTO Livros VALUES ('Dom Casmurro', 'Romance', 1900, 'Disponível', 56.50)
-INSERT INTO Livros VALUES ('Harry Potter', 'Ficção', 1997, 'Emprestado', 61.38)
-INSERT INTO Livros VALUES ('O Pequeno Príncipe', 'Ficção', 1943, 'Emprestado', 24.79)
-INSERT INTO Livros VALUES ('Sistema de Banco de Dados', 'Informática', 1999, 'Disponível', 84.00)
-INSERT INTO Livros VALUES ('Cálculo Diferencial', 'Matemática', 1992, 'Emprestado', 75.10)
-INSERT INTO Livros VALUES ('Jogos Vorazes', 'Ficção', 2008, default, 37.08)
-INSERT INTO Livros VALUES ('Use a Cabeça: SQL', 'Informática', 2003, 'Disponível', 79.00)
+INSERT INTO Livros VALUES ('Dom Casmurro', 'Romance', 1900, 'DisponÃ­vel', 56.50)
+INSERT INTO Livros VALUES ('Harry Potter', 'FicÃ§Ã£o', 1997, 'Emprestado', 61.38)
+INSERT INTO Livros VALUES ('O Pequeno PrÃ­ncipe', 'FicÃ§Ã£o', 1943, 'Emprestado', 24.79)
+INSERT INTO Livros VALUES ('Sistema de Banco de Dados', 'InformÃ¡tica', 1999, 'DisponÃ­vel', 84.00)
+INSERT INTO Livros VALUES ('CÃ¡lculo Diferencial', 'MatemÃ¡tica', 1992, 'Emprestado', 75.10)
+INSERT INTO Livros VALUES ('Jogos Vorazes', 'FicÃ§Ã£o', 2008, default, 37.08)
+INSERT INTO Livros VALUES ('Use a CabeÃ§a: SQL', 'InformÃ¡tica', 2003, 'DisponÃ­vel', 79.00)
 INSERT INTO Livros VALUES ('O Mundo de Sofia', 'Romance', 1990, 'Emprestado', 44.22)
-INSERT INTO Livros VALUES ('Programando em SQL', 'Informática', 1990, default, 52.90)
+INSERT INTO Livros VALUES ('Programando em SQL', 'InformÃ¡tica', 1990, default, 52.90)
 
 INSERT INTO Emprestimos VALUES (5, 8, '02-10-2022', '17-10-2022')
 INSERT INTO Emprestimos VALUES (5, 3, '02-11-2022', '22-11-2022')
@@ -90,9 +90,9 @@ SELECT nome, tipo FROM Usuarios
 ORDER BY nome
 
 SELECT titulo, ano FROM Livros
-WHERE situacao = 'Disponível'
+WHERE situacao = 'Disponï¿½vel'
 
-SELECT COUNT(*) AS 'Livros com custo à partir de 70' FROM Livros
+SELECT COUNT(*) AS 'Livros com custo ï¿½ partir de 70' FROM Livros
 WHERE precoCusto >= 70
 
 SELECT idEmprestimo FROM Emprestimos
@@ -104,10 +104,10 @@ WHERE ano >= 1970
 SELECT * FROM Livros 
 ORDER BY titulo
 
-SELECT MAX (precoCusto), MIN(precoCusto) FROM Livros
+SELECT MAX (precoCusto) AS 'Livro mais caro ', MIN(precoCusto) AS 'Livro mais barato' FROM Livros
 
 SELECT titulo, ano FROM Livros
-WHERE genero = 'ficção' OR genero = 'Romance'
+WHERE genero = 'ficï¿½ï¿½o' OR genero = 'Romance'
 
 SELECT * FROM Usuarios
 WHERE IDUsuario = 4
@@ -118,18 +118,18 @@ SELECT DISTINCT idUsuario FROM Emprestimos
 WHERE dataSaida BETWEEN '01-10-2022' AND '31-12-2022'
 
 SELECT titulo, precoCusto FROM Livros
-WHERE genero = 'Informática'
+WHERE genero = 'Informï¿½tica'
 
 SELECT idUsuario, RG FROM Usuarios
 WHERE nome = 'Pedro Henrique'
 
-SELECT COUNT (*) AS 'Livros Ficção' FROM Livros
-WHERE genero = 'Ficção'
+SELECT COUNT (*) AS 'Livros Ficï¿½ï¿½o' FROM Livros
+WHERE genero = 'Ficï¿½ï¿½o'
 
 SELECT ano, situacao FROM Livros
 WHERE titulo = 'Harry Potter'
 
-SELECT AVG (precoCusto) AS 'Média de preço dos livros lançados à partir de 2000' FROM Livros
+SELECT AVG (precoCusto) AS 'Mï¿½dia de preï¿½o dos livros lanï¿½ados ï¿½ partir de 2000' FROM Livros
 WHERE ano >= 2000
 
 SELECT titulo, genero FROM Livros
@@ -144,7 +144,7 @@ GROUP BY genero
 SELECT idUsuario, COUNT (*) AS 'Quantidade de emprestimos' FROM Emprestimos
 GROUP BY IDUsuario
 
-SELECT idLivro, COUNT (DISTINCT IdUsuario) AS ' Quantidade Usuários' FROM Emprestimos
+SELECT idLivro, COUNT (DISTINCT IdUsuario) AS ' Quantidade Usuï¿½rios' FROM Emprestimos
 GROUP BY IDLivro
 
 
@@ -156,23 +156,23 @@ SELECT nome FROM Usuarios
 WHERE IDUsuario IN
 	(SELECT IDUsuario FROM Emprestimos)
 
--- Nome e tipo de usuários que fizeram emprestimo em outubro
+-- Nome e tipo de usuï¿½rios que fizeram emprestimo em outubro
 SELECT nome, tipo FROM Usuarios WHERE IDUsuario
 	IN(SELECT IDUsuario FROM Emprestimos WHERE dataSaida BETWEEN '01-10-2022' AND '30-10-2022')
 
--- Titulo e genero de livros emprestados de Março a junho
+-- Titulo e genero de livros emprestados de Marï¿½o a junho
 SELECT titulo, genero FROM Livros WHERE IDLivro
 	IN(SELECT IDLivro FROM Emprestimos WHERE dataSaida BETWEEN '01-03-2022' AND '30-06-2022')
 
--- Usuarios e sexo que fizeram emprestimo de livro de ficção
+-- Usuarios e sexo que fizeram emprestimo de livro de ficï¿½ï¿½o
 SELECT DISTINCT RG, sexo FROM Livros, Emprestimos, Usuarios
 WHERE Livros.IDLivro = Emprestimos.IDLivro AND Usuarios.IDUsuario = Emprestimos.IDUsuario 
-AND genero = 'Ficção'
+AND genero = 'Ficï¿½ï¿½o'
 
 SELECT RG, sexo FROM Usuarios
 WHERE IDUsuario IN
 	(SELECT IDUsuario FROM Emprestimos WHERE IDLivro IN
-		(SELECT IDLivro FROM Livros WHERE genero = 'Ficção'))
+		(SELECT IDLivro FROM Livros WHERE genero = 'Ficï¿½ï¿½o'))
 
 -- Generos emprestados a professores
 SELECT DISTINCT genero FROM Usuarios, Livros, Emprestimos
@@ -184,46 +184,302 @@ WHERE IDLivro IN
 	(SELECT IDLivro FROM Emprestimos WHERE IDUsuario IN
 		(SELECT IDUsuario FROM Usuarios WHERE tipo = 'Docente'))
 
--- Qual a quantidade de usuários de cada sexo que fizeram empréstimo de livros de informática?
-SELECT sexo, COUNT (*) AS 'Quantidade de usuários que fizeram empréstimo de livro de informática' FROM Emprestimos, Usuarios, Livros
+-- Qual a quantidade de usuï¿½rios de cada sexo que fizeram emprï¿½stimo de livros de informï¿½tica?
+SELECT sexo, COUNT (*) AS 'Quantidade de usuï¿½rios que fizeram emprï¿½stimo de livro de informï¿½tica' FROM Emprestimos, Usuarios, Livros
 WHERE Usuarios.IDUsuario = Emprestimos.IDUsuario AND Livros.IDLivro = Emprestimos.IDLivro
-AND genero = 'Informática'
+AND genero = 'Informï¿½tica'
 GROUP BY sexo
 
---Qual o custo médio dos livros de ficção emprestados a discentes?
+--Qual o custo mï¿½dio dos livros de ficï¿½ï¿½o emprestados a discentes?
 
-SELECT AVG (precoCusto) AS 'Preço médio' FROM Livros
-WHERE genero = 'Ficção' AND IDLivro IN
+SELECT AVG (precoCusto) AS 'Preï¿½o mï¿½dio' FROM Livros
+WHERE genero = 'Ficï¿½ï¿½o' AND IDLivro IN
 	(SELECT IDLivro FROM Emprestimos WHERE IDUsuario IN
 		(SELECT IDUsuario FROM Usuarios WHERE tipo = 'Discente'))
 
--- Qual o nome de todos os usuários que não fizeram empréstimos de livros?
+-- Qual o nome de todos os usuï¿½rios que nï¿½o fizeram emprï¿½stimos de livros?
 SELECT nome FROM Usuarios
 WHERE IDUsuario NOT IN
 	(SELECT IDUsuario FROM Emprestimos)
 
--- Nome de usuários que pegaram o livro mais caro
+-- Nome de usuï¿½rios que pegaram o livro mais caro
 SELECT nome FROM Usuarios U, Livros L, Emprestimos E
 WHERE U.IDUsuario = E.IDUsuario AND L.IDLivro = E.IDLivro 
 AND precoCusto = (SELECT MAX (precoCusto) FROM Livros)
+ORDER BY nome
 
--- Titulos dos livros com preço maior que o preço médio 
+-- Titulos dos livros com preï¿½o maior que o preï¿½o mï¿½dio 
 SELECT titulo, precoCusto FROM Livros
 WHERE precoCusto > (SELECT AVG(PrecoCusto) FROM Livros)
 ORDER BY precoCusto
 
--- Para cada empréstimo do livro Use a Cabeça: SQL, listar o nome do usuário e a data de devolução.
+-- Para cada emprï¿½stimo do livro Use a Cabeï¿½a: SQL, listar o nome do usuï¿½rio e a data de devoluï¿½ï¿½o.
 SELECT Usuarios.nome, Emprestimos.dataDevolucao FROM Usuarios, Livros, Emprestimos
 WHERE Usuarios.IDUsuario = Emprestimos.IDEmprestimo AND Livros.IDLivro = Emprestimos.IDLivro
-AND Livros.titulo = 'Use a cabeça: SQL'
+AND Livros.titulo = 'Use a cabeï¿½a: SQL'
 
--- Para cada empréstimo, exibir o nome e o RG do usuário, o título e o gênero do livro, e a data de saída. 
+-- Para cada emprï¿½stimo, exibir o nome e o RG do usuï¿½rio, o tï¿½tulo e o gï¿½nero do livro, e a data de saï¿½da. 
 SELECT U.nome, U.RG, L.titulo, L.genero, E.dataSaida FROM Usuarios U, Livros L, Emprestimos E
 WHERE U.IDUsuario = E.IDUsuario AND L.IDLivro = E.IDLivro
 
--- Para cada empréstimo, exibir o nome do usuário, a data de saída do empréstimo, a quantidade de livros emprestados e o preço de custo total.
+-- Para cada emprï¿½stimo, exibir o nome do usuï¿½rio, a data de saï¿½da do emprï¿½stimo, a quantidade de livros emprestados e o preï¿½o de custo total.
 SELECT U.nome, E.dataSaida, COUNT(L.idlivro) AS 'Quantidade livros', SUM (L.precoCusto) FROM Usuarios U, Livros L, Emprestimos E
 WHERE U.IDUsuario = E.IDUsuario AND L.IDLivro = E.IDLivro
 GROUP BY nome, dataSaida
+
+
+-- Funï¿½ï¿½es
+
+-- Crie uma funï¿½ï¿½o chamada QuantLivrosGenero que receba por parï¿½metro o nome de um
+--gï¿½nero e retorne a quantidade de livros daquele gï¿½nero existentes na biblioteca. (Obs:
+--Nesse caso, o gï¿½nero do livro tem que ser exato para garantir que haja apenas um
+-- resultado)
+CREATE FUNCTION QuantLivrosGenero (@genero VARCHAR(20))
+RETURNS INT AS
+BEGIN 
+	DECLARE @quant INT 
+	SET @quant = (SELECT COUNT(*) FROM Livros
+	WHERE genero = @genero)
+	RETURN @quant
+END
+
+SELECT dbo.QuantLivrosGenero('Ficï¿½ï¿½o')
+
+-- Crie uma funï¿½ï¿½o chamada QuantEmprestimosLivro que receba por parï¿½metro o tï¿½tulo
+--de um livro e retorne a quantidade de vezes que ele jï¿½ foi emprestado. (Obs: Nesse caso,
+-- o tï¿½tulo do livro tem que ser exato para garantir que haja apenas um resultado)
+
+CREATE FUNCTION QuantEmprestimosLivro (@titulo VARCHAR(50))
+RETURNS INT AS
+BEGIN
+	DECLARE @quantEmprestimos INT, @codigo INT
+	SET @codigo = (SELECT idLivro FROM Livros WHERE titulo = @titulo)
+	SET @quantEmprestimos = (SELECT COUNT(*) FROM Emprestimos WHERE IDLivro = @codigo)
+	RETURN @quantEmprestimos
+END
+
+SELECT dbo.QuantEmprestimosLivro ('Harry Potter')
+
+-- Crie uma funï¿½ï¿½o chamada EmprestimosMesAno que receba por parï¿½metro o nome de
+--um mï¿½s e um ano e retorne os dados (nome do usuï¿½rio, tï¿½tulo do livro, dataSaï¿½da) de
+--todos os emprï¿½stimos realizados naquele mï¿½s e ano. (Dica: a funï¿½ï¿½o DATENAME pode
+--ser usada para descobrir o nome do mï¿½s de uma determinada data, e a funï¿½ï¿½o YEAR
+--pode ser usada para descobrir o ano de uma determinada data.)
+
+CREATE FUNCTION EmprestimosMesAno (@mes VARCHAR (15), @ano INT)
+RETURNS TABLE AS
+RETURN (SELECT U.nome, L.titulo, E.datasaida FROM Usuarios U 
+INNER JOIN Emprestimos E ON U.IDUsuario = E.IDUsuario 
+INNER JOIN Livros L ON E.IDLivro = L.IDLivro WHERE DATENAME (MONTH, dataSaida) = @mes AND YEAR (dataSaida) = @ano)
+
+SELECT * FROM EmprestimosMesAno ('Novembro',2022)
+
+--Crie uma funï¿½ï¿½o chamada GeneroPreferido que receba por parï¿½metro o nome de um
+--usuï¿½rio e retorne o gï¿½nero de livros que o usuï¿½rio mais pegou emprestado, com a
+--respectiva quantidade de emprï¿½stimos feitos. (Dica: Calcule a quantidade de
+--emprï¿½stimos por gï¿½nero, depois ordene os resultados e utilize a funï¿½ï¿½o TOP para obter
+--apenas o dado que interessa)
+
+CREATE FUNCTION GeneroPreferido (@usuario VARCHAR(50))
+RETURNS TABLE AS
+RETURN 
+	SELECT TOP 1 L.genero, COUNT(idEmprestimo) FROM Usuarios U 
+	INNER JOIN Emprestimos E ON U.IDUsuario = E.IDUsuario 
+	INNER JOIN Livros L ON E.IDLivro = L.IDLivro 
+	WHERE U.nome = @usuario
+	GROUP BY L.genero
+	ORDER BY COUNT (idEmprestimo) DESC
+
+SELECT genero FROM GeneroPreferido ('Roberta Silva')
+
+-- PROCEDIMENTOS
+
+SELECT * FROM Usuarios
+SELECT * FROM Emprestimos
+SELECT * FROM Livros
+
+-- Criar procedimento para consultar os dados dos livros que estï¿½o emprestados (com parï¿½metro)
+CREATE PROCEDURE LivrosStatus (@status VARCHAR(12)) AS
+	SELECT * FROM Livros WHERE situacao = @status
+
+EXEC LivrosStatus 'Emprestado'
+
+-- Criar procedimento para consultar os dados dos livros que estï¿½o emprestados (sem parï¿½metros)
+CREATE PROCEDURE LivrosEmprestados AS
+	SELECT * FROM Livros WHERE situacao = 'Emprestado'
+
+EXEC LivrosEmprestados
+
+-- Criar procedimento para consultar os dados dos livros que estï¿½o disponï¿½veis (sem parï¿½metros)
+CREATE PROCEDURE LivrosDisponiveis AS
+	SELECT * FROM Livros WHERE situacao = 'Disponï¿½vel'
+
+EXEC LivrosDisponiveis
+
+-- Criar procedimento para atualizar o preï¿½o de um livro a partir de seu tï¿½tulo
+CREATE PROCEDURE AtualizaPreco (@livro VARCHAR(50), @novoValor NUMERIC(10,2)) AS
+BEGIN
+	DECLARE	@codigo INT
+
+	SET @codigo = (SELECT IDLivro FROM Livros WHERE Titulo = @livro)
+
+	UPDATE Livros
+	SET precoCusto = @novoValor
+	WHERE IDLivro = @codigo
+END
+
+EXEC AtualizaPreco 'Dom Casmurro', 80.32
+EXEC AtualizaPreco 'Jogos Vorazes', 50
+
+-- Criar procedimento para excluir um usuï¿½rio e seus respectivos emprï¿½stimos a partir de seu nome
+CREATE PROCEDURE ExcluiUsuario (@usuario VARCHAR(50)) AS
+BEGIN
+	DECLARE @codigo INT
+
+	SET @codigo = (SELECT IDUsuario FROM Usuarios WHERE Nome = @usuario)
+
+	DELETE FROM Emprestimos 
+	WHERE IDUsuario = @codigo
+
+	DELETE FROM Usuarios
+	WHERE IDUsuario = @codigo
+END
+
+EXEC ExcluiUsuario 'Marcos Andrade'
+
+-- Criar procedimento para excluir um livro e indicar num parï¿½metro de saï¿½da quantos emprï¿½stimos foram excluï¿½dos
+CREATE OR ALTER PROCEDURE ExcluiLivro (@livro VARCHAR (50), @quantExclusoes INT OUTPUT) AS
+BEGIN
+	DECLARE @codigo INT
+
+	SET @codigo = (SELECT IDLivro FROM Livros WHERE titulo = @livro)
+
+	SET @quantExclusoes = (SELECT COUNT(IDEmprestimo) FROM Emprestimos WHERE IDLivro = @codigo)
+
+	DELETE FROM Emprestimos WHERE IDLivro = @codigo
+
+	DELETE FROM Livros WHERE IDLivro = @codigo
+END
+
+-- Para que o valor seja guardado em uma variï¿½vel enviada como parï¿½metro, ï¿½ necessï¿½rio
+-- criar um bloco de cï¿½digo
+BEGIN
+	DECLARE @exclusoes INT
+	EXEC ExcluiLivro 'Harry Potter', @exclusoes OUTPUT
+	PRINT CAST(@exclusoes AS VARCHAR(4)) + ' emprï¿½stimos foram excluï¿½dos'
+END
+
+-- Criar procedimento para povoar uma tabela com dados genï¿½ricos (Dica: funï¿½ï¿½es CAST e ROUND podem ajudar)
+
+CREATE TABLE Cursos(
+	ID int NOT NULL,
+	nome VARCHAR(20) NOT NULL,
+	quantVagas INT NOT NULL
+)
+
+CREATE PROCEDURE InsereCursos (@quant INT) AS
+BEGIN
+	DECLARE @codigo INT, @curso VARCHAR(10), @vagas INT, @quantLinhas INT
+
+	-- Cada registro serï¿½ inserido no padrï¿½o (x, 'Cursox', y), sendo x um nï¿½mero incremental e y um nï¿½mero aleatï¿½rio
+
+	-- ï¿½ necessï¿½rio descobrir quantas linhas a tabela jï¿½ tem para calcular qual serï¿½ o prï¿½ximo ID.
+	-- Caso esteja vazia, o cï¿½digo mais recente serï¿½ zero. Caso contrï¿½rio, serï¿½ o maior valor da tabela.
+	SET @quantLinhas = (SELECT COUNT(*) FROM Cursos)
+
+	IF(@quantLinhas = 0)
+		SET @codigo = 0
+	ELSE
+		SET @codigo = (SELECT MAX(ID) FROM Cursos)
+
+	WHILE (@quant > 0) -- Controle de quantos registros serï¿½o inseridos
+	BEGIN
+		SET @codigo = @codigo + 1
+		SET @curso = 'Curso' + CAST(@codigo AS VARCHAR(3)) -- A funï¿½ï¿½o CAST transforma um tipo em outro
+		SET @vagas = CAST(Rand() * 100 AS INT)	-- A funï¿½ï¿½o RAND retorna um nï¿½mero decimal aletarï¿½rio entre 0 e 1
+
+		INSERT INTO Cursos VALUES (@codigo, @curso, @vagas)
+	
+		SET @quant = @quant - 1
+	END
+END
+
+EXEC InsereCursos 5
+SELECT * FROM Cursos
+
+-- GATILHOS
+
+-- Regra de Negï¿½cio: Sempre que um emprï¿½stimo ï¿½ feito, a situaï¿½ï¿½o do livro deve mudar
+-- para emprestado. Crie um gatilho chamado RealizaEmprestimo para atualizar a situaï¿½ï¿½o
+-- de um livro a cada emprï¿½stimo cadastrado.
+
+CREATE TRIGGER RealizaEmprestimo ON Emprestimos FOR INSERT AS
+BEGIN
+	DECLARE @livro INT
+
+	SET @livro = (SELECT idLivro FROM INSERTED)
+
+	UPDATE Livros
+	SET situacao = 'Emprestado' WHERE idLivro = @livro
+END
+
+-- Um livro nï¿½o pode ser emprestado caso nï¿½o esteja disponï¿½vel. Altere
+-- o gatilho RealizaEmprestimo para verificar a situaï¿½ï¿½o de um livro a cada emprï¿½stimo
+-- cadastrado. Caso o emprï¿½stimo seja possï¿½vel, as aï¿½ï¿½es anteriores devem ser mantidas.
+-- Caso contrï¿½rio, deve ser exibida uma mensagem de erro adequada e a transaï¿½ï¿½o deve ser desfeita.
+
+ALTER TRIGGER RealizaEmprestimo ON Emprestimos FOR INSERT AS 
+BEGIN 
+	DECLARE @livro INT, @situacao VARCHAR(15)
+
+	SET @livro = (SELECT idLivro FROM INSERTED)
+	SET @situacao = (SELECT situacao FROM Livros WHERE IDLivro = @livro)
+
+	IF (@situacao = 'Disponï¿½vel')
+	BEGIN
+		UPDATE Livros
+		SET situacao = 'Emprestado' WHERE IDLivro = @livro
+	END
+	ELSE 
+	BEGIN
+		PRINT 'O livro nï¿½o estï¿½ disponï¿½vel para emprestimo !'
+		ROLLBACK
+	END
+END
+
+-- O prazo de devoluï¿½ï¿½o para discentes ï¿½ de 20 dias, e para docentes e
+-- funcionï¿½rios ï¿½ de 30 dias. Crie um gatilho chamado DefinePrazo para atualizar a data de
+-- devoluï¿½ï¿½o, de acordo com o tipo de usuï¿½rio, a cada emprï¿½stimo cadastrado. (Dica: a
+-- funï¿½ï¿½o DateAdd ( ) pode ser usada para adicionar dias, meses ou anos a uma
+-- determinada data)
+
+CREATE TRIGGER DefinePrazo ON Emprestimos FOR INSERT AS
+BEGIN
+	DECLARE 
+	@usuario INT,
+	@livro INT,
+	@tipoU VARCHAR(15),
+	@dias INT,
+	@dataEmprestimo DATETIME
+
+	SET @dataEmprestimo = (SELECT dataSaida FROM INSERTED)
+	SET @livro = (SELECT idlivro FROM INSERTED)
+	SET @usuario = (SELECT idUsuario FROM INSERTED)
+	SET @tipoU = (SELECT tipo FROM Usuarios WHERE IDUsuario = @usuario)
+
+	IF (@tipoU = 'Discente')
+	BEGIN
+		SET @dias = 20
+	END
+	ELSE
+	BEGIN
+		SET @dias = 30
+	END
+
+	UPDATE Emprestimos
+	SET dataDevolucao = DATEADD(day, @dias, @dataEmprestimo) 
+	WHERE IDLivro = @livro AND IDUsuario = @usuario AND dataSaida = @dataEmprestimo
+
+END
 
 
