@@ -51,14 +51,14 @@ CREATE TABLE Trocas(
 	CHECK (quantidade > 0)
 )
 
-INSERT INTO Clientes VALUES ('André Carneiro','3252541','Carteiro',80)
-INSERT INTO Clientes VALUES ('Márcio Rodrigues','4812072','Engenheiro',65)
+INSERT INTO Clientes VALUES ('AndrÃ© Carneiro','3252541','Carteiro',80)
+INSERT INTO Clientes VALUES ('MÃ¡rcio Rodrigues','4812072','Engenheiro',65)
 INSERT INTO Clientes VALUES ('Cristina Santana','6971238','Contadora',100)
 INSERT INTO Clientes VALUES ('Michele Medeiros','9068131','Professora',90)
-INSERT INTO Clientes VALUES ('Daniel Maia','0258136','Bancário',120)
+INSERT INTO Clientes VALUES ('Daniel Maia','0258136','BancÃ¡rio',120)
 INSERT INTO Clientes VALUES ('Larissa Gomes','3254170','Professora',215)
 INSERT INTO Clientes VALUES ('Rafaela Costa','9801170','Arquiteta',270)
-INSERT INTO Clientes VALUES ('César Fernandes','7428109','Dentista',200)
+INSERT INTO Clientes VALUES ('CÃ©sar Fernandes','7428109','Dentista',200)
 
 
 INSERT INTO Compras VALUES (1,'02-09-2019',22.78,07)
@@ -74,9 +74,9 @@ INSERT INTO Compras VALUES (8,'17-08-2019',25.29,08)
 
 INSERT INTO Premios VALUES ('Bolsa (100% couro)',300,5)
 INSERT INTO Premios VALUES ('Bolsa (palha)',80,12)
-INSERT INTO Premios VALUES ('Relógio masculino',160,3)
-INSERT INTO Premios VALUES ('Boné (100% algodão)',40,10)
-INSERT INTO Premios VALUES ('Óculos',27,30)
+INSERT INTO Premios VALUES ('RelÃ³gio masculino',160,3)
+INSERT INTO Premios VALUES ('BonÃ© (100% algodÃ£o)',40,10)
+INSERT INTO Premios VALUES ('Ã“culos',27,30)
 INSERT INTO Premios VALUES ('Chaveiro',9, 110)
 INSERT INTO Premios VALUES ('Caneta',7,92)
 
@@ -90,37 +90,37 @@ INSERT INTO Trocas VALUES (4,6,2,'12-10-2018')
 INSERT INTO Trocas VALUES (5,6,1,'15-12-2019')
 INSERT INTO Trocas VALUES (6,7,1,'17-03-2018')
 
--- Quais os nomes e profissões dos clientes que têm 200 pontos ou mais?
+-- Quais os nomes e profissï¿½es dos clientes que tï¿½m 200 pontos ou mais?
 SELECT nome, profissao FROM Clientes
 WHERE saldoPontos > 200
 
--- Quais os nomes dos clientes que trocaram seus pontos por relógios ou bolsas?
+-- Quais os nomes dos clientes que trocaram seus pontos por relï¿½gios ou bolsas?
 SELECT nome FROM Clientes C, Trocas T, Premios P
 WHERE C.idCliente = T.idCliente AND T.idPremio = P.idPremio
-AND (P.descricao LIKE '%Relógio%' OR descricao LIKE '%Bolsa%')
+AND (P.descricao LIKE '%Relï¿½gio%' OR descricao LIKE '%Bolsa%')
 
 SELECT nome FROM Clientes
 WHERE idCliente IN
 	(SELECT idCliente FROM Trocas WHERE idPremio IN 
-		(SELECT idPremio FROM Premios WHERE descricao LIKE 'Relógio%' OR descricao LIKE 'Bolsa%'))
+		(SELECT idPremio FROM Premios WHERE descricao LIKE 'Relï¿½gio%' OR descricao LIKE 'Bolsa%'))
 
--- Quais as descrições dos prêmios disponíveis para troca?
+-- Quais as descriï¿½ï¿½es dos prï¿½mios disponï¿½veis para troca?
 SELECT descricao FROM Premios
 WHERE quantEstoque > 0
 
--- Qual o valor total dos prêmios trocados em janeiro de 2019?
+-- Qual o valor total dos prï¿½mios trocados em janeiro de 2019?
 SELECT SUM (valorPontos) AS 'Valor total' FROM Premios P, Trocas T
 WHERE P.idPremio = T.idPremio AND data BETWEEN '01-01-2019' AND '31-01-2019'
 
--- Qual a descrição e valor dos prêmios que começam com B ou S (em ordem decrescente de valor)?
+-- Qual a descriï¿½ï¿½o e valor dos prï¿½mios que comeï¿½am com B ou S (em ordem decrescente de valor)?
 SELECT descricao, valorPontos FROM Premios
 WHERE descricao LIKE'B%' OR descricao LIKE 'S%'
 ORDER BY valorPontos desc
 
--- Qual a média de pontos ganhos nas compras?
-SELECT AVG(pontosGanhos) AS 'Média pontos ganhos' FROM Compras
+-- Qual a mï¿½dia de pontos ganhos nas compras?
+SELECT AVG(pontosGanhos) AS 'Mï¿½dia pontos ganhos' FROM Compras
 
--- Para cada prêmio, exibir a descrição e a quantidade de vezes que já foi trocado.
+-- Para cada prï¿½mio, exibir a descriï¿½ï¿½o e a quantidade de vezes que jï¿½ foi trocado.
 SELECT descricao, COUNT (*) AS 'Quantidade de trocas' FROM Premios P, Trocas T
 WHERE P.idPremio = T.idPremio
 GROUP BY descricao
@@ -130,10 +130,157 @@ SELECT nome, SUM(pontosGanhos) AS 'Total pontos ganhos' FROM Clientes, Compras
 WHERE Clientes.idCliente = Compras.idCliente
 GROUP BY nome
 
--- Para cada troca, exibir o nome do cliente, a descrição do prêmio e a data.
+-- Para cada troca, exibir o nome do cliente, a descriï¿½ï¿½o do prï¿½mio e a data.
 SELECT nome, descricao, data FROM Clientes C, Trocas T, Premios P
 WHERE C.idCliente = T.idCliente AND P.idPremio = T.idPremio
 
--- Quais os códigos dos prêmios trocados em outubro de 2018?
+-- Quais os cï¿½digos dos prï¿½mios trocados em outubro de 2018?
 SELECT idPremio FROM Trocas
 WHERE data BETWEEN '01-10-2018' AND '31-10-2018'
+
+-- FUNï¿½ï¿½ES
+
+
+--Crie uma funï¿½ï¿½o chamada MediaComprasFeitas que receba por parï¿½metro o nome de um cliente e retorne o valor mï¿½dio das compras feitas por ele.
+
+CREATE FUNCTION MediaComprasFeitas (@nome VARCHAR(50))
+RETURNS NUMERIC (10,2) AS
+BEGIN 
+	DECLARE @codigo INT, @media NUMERIC(10,2)
+	SET @codigo = (SELECT idCliente FROM Clientes WHERE nome = @nome)
+	SET @media = (SELECT AVG(valor) FROM Compras WHERE idCliente = @codigo)
+
+	RETURN @media
+END
+
+SELECT dbo.MediaComprasFeitas ('Cristina Santana') 'Mï¿½dia Compras'
+
+-- Crie uma funï¿½ï¿½o chamada PremiosTrocadosPerï¿½odo que receba por parï¿½metro duas datas e retorne a quantidade total de prï¿½mios que foram trocadas nesse perï¿½odo.
+CREATE FUNCTION PremiosTrocadosPeriodo (@dataI DATETIME, @dataF DATETIME)
+RETURNS INT AS
+BEGIN
+	DECLARE @quant INT
+	SET @quant = (SELECT SUM(quantidade) FROM Trocas WHERE data BETWEEN @dataI AND @dataF)
+	RETURN @quant
+END
+
+SELECT dbo.PremiosTrocadosPeriodo ('01/07/2018', '31/12/2018') 'Quantidade no perï¿½odo'
+
+-- Crie uma funï¿½ï¿½o chamada GastoMï¿½ximoCliente que receba por parï¿½metro o CPF de um cliente e retorne o maior valor de uma compra feita por ele.
+CREATE FUNCTION GastoMaximoCliente (@cpf CHAR (11))
+RETURNS NUMERIC (10,2) AS
+BEGIN
+	DECLARE @codigo INT, @valorMax NUMERIC (10,2)
+	SET @codigo = (SELECT idCliente FROM Clientes WHERE CPF = @cpf)
+	SET @valorMax = (SELECT MAX(valor) FROM Compras WHERE idCliente = @codigo)
+	RETURN @valorMAx
+END
+
+SELECT dbo.GastoMaximoCliente ('3252541')
+SELECT dbo.GastoMaximoCliente (CPF) 'Valor mï¿½ximo' FROM Clientes WHERE nome = 'Daniel Maia'
+
+-- Crie uma funï¿½ï¿½o chamada HistoricoTrocasPremio que receba por parï¿½metro a descriï¿½ï¿½o de um prï¿½mio e um ano, e retorne o nome do cliente e a data de cada troca daquele prï¿½mio realizada naquele ano.
+CREATE FUNCTION HistoricoTrocasPremio (@desc VARCHAR(50), @ano INT)
+RETURNS TABLE AS
+RETURN
+SELECT C.nome, T.data FROM Clientes C INNER JOIN
+Trocas T ON C.idCliente = T.idCliente INNER JOIN
+Premios P ON T.idCliente = P.idPremio
+WHERE P.descricao = @desc AND YEAR(data) = @ano
+
+SELECT * FROM HistoricoTrocasPremio ('Chaveiro', 2019) ORDER BY nome
+
+-- PROCEDIMENTOS
+
+-- Crie um procedimento chamado PremiosEstoqueBaixo que exiba a descriï¿½ï¿½o e a
+-- quantidade em estoque dos prï¿½mios que tenham menos de 10 unidades disponï¿½veis. Em
+-- seguida, execute esse procedimento.
+
+CREATE PROCEDURE PremiosEstoqueBaixo AS
+SELECT descricao, quantEstoque FROM Premios
+WHERE quantEstoque < 10
+
+EXEC PremiosEstoqueBaixo
+
+-- Crie um procedimento chamado PremiosMaisValiosos que exiba todos os dados dos
+-- cinco prï¿½mios com maior valor em pontos em ordem decrescente. Em seguida, execute
+-- esse procedimento.
+
+CREATE PROCEDURE PremiosMaisValiosos AS
+SELECT TOP 5 * FROM Premios
+ORDER BY valorPontos DESC
+
+EXEC PremiosMaisValiosos
+
+-- Crie um procedimento chamado AtualizaProfissao que receba por parï¿½metro o nome de
+-- um cliente e sua nova profissï¿½o e atualize seu cadastro.
+
+CREATE PROCEDURE AtualizaProfissao (@cliente VARCHAR (50), @novaProfissao VARCHAR(40)) AS
+BEGIN 
+	DECLARE @codigo INT
+	SET @codigo = (SELECT idCliente FROM Clientes WHERE nome = @cliente)
+
+	UPDATE Clientes
+	SET profissao = @novaProfissao
+	WHERE idCliente = @codigo
+END
+
+SELECT nome, profissao FROM Clientes
+EXEC AtualizaProfissao 'Daniel Maia', 'Padeiro'
+
+-- Crie um procedimento chamado AtualizaPontuacao que receba por parï¿½metro um
+-- IDCompra e uma nova quantidade de pontos ganhos e, alï¿½m de atualizar a tabela
+-- Compras, atualize tambï¿½m o saldo de pontos do respectivo Cliente. (Dica: dependendo
+-- do novo valor, essa atualizaï¿½ï¿½o poderï¿½ aumentar ou diminuir o saldo do cliente)
+
+CREATE PROCEDURE AtualizaPontucao (@compra INT, @novaPontuacao INT) AS
+BEGIN 
+	DECLARE @pontuacaoAtual INT, @cliente INT, @diferenca INT
+	
+	SET @cliente = (SELECT idcliente FROM Compras WHERE idCompras = @compra)
+
+	SET @pontuacaoAtual = (SELECT PontosGanhos FROM Compras WHERE idCompras = @compra)
+
+	UPDATE Compras SET pontosGanhos = @novaPontuacao
+	WHERE idCompras = @compra
+
+	IF (@novaPontuacao > @pontuacaoAtual)
+	BEGIN
+		SET @diferenca = @novaPontuacao - @pontuacaoAtual
+
+		UPDATE Clientes SET saldoPontos = saldoPontos + @diferenca
+		WHERE idCliente = @cliente
+	END
+	ELSE
+	BEGIN
+		SET @diferenca = @pontuacaoAtual - @novaPontuacao
+
+		UPDATE Clientes SET saldoPontos = saldoPontos - @diferenca
+		WHERE idCliente = @cliente
+	END
+END
+
+EXEC AtualizaPontucao 3, 70
+EXEC AtualizaPontucao 3, 10
+
+-- Crie um procedimento chamado ExcluiClientes que receba por parï¿½metro o nome de um cliente e exclua todos os seus dados do sistema.
+
+CREATE PROCEDURE ExcluiClientes (@cliente VARCHAR(60)) AS
+BEGIN
+	DECLARE @codigo INT
+
+	SET @codigo = (SELECT idCliente FROM Clientes WHERE nome = @cliente)
+
+	DELETE FROM Compras 
+	WHERE idCliente = @codigo
+
+	DELETE FROM Trocas
+	WHERE idCliente = @codigo
+	
+	DELETE FROM Clientes 
+	WHERE idCliente = @codigo
+END
+
+SELECT * FROM Clientes
+
+EXEC ExcluiClientes 'Larissa Gomes'
